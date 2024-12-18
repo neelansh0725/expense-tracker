@@ -6,7 +6,7 @@
 
 ## Installation
 
-Install tic-tac-toe with npm
+Install expense tracker app with npm
 
 
 ```bash
