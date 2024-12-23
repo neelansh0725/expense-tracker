@@ -4,22 +4,20 @@ import { Expense } from "../Expense/Expense";
 import { Income } from "../Income/Income";
 import { Transaction } from "../Transaction/Transaction";
 import { Setting } from "../Setting/Setting";
-import cookie from "react-cookies";
+import { Transactions } from "../Transactions/Transactions";
+
 export const Menu = (props) => {
   const [expense, setExpense] = useState([]);
-  const currentCurrency = cookie.load("expense_currency");
 
   const handleMenu = (menu) => {
     if (menu == "dashboard") {
-      props.menuselected(<Dashboard currency={currentCurrency} />);
+      props.menuselected(<Dashboard />);
     } else if (menu == "transaction") {
-      props.menuselected(<Transaction />);
+      props.menuselected(<Transactions />);
     } else if (menu == "income") {
-      props.menuselected(<Income currency={currentCurrency} />);
+      props.menuselected(<Income />);
     } else if (menu == "expense") {
-      props.menuselected(
-        <Expense currency={currentCurrency} setExpense={setExpense} />
-      );
+      props.menuselected(<Expense setExpense={setExpense} />);
     } else if (menu == "setting") {
       props.menuselected(<Setting />);
     }

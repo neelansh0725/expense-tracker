@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card } from "../Card/Card";
-
+import cookie from "react-cookies";
+import AppContext from "../../context/AppContext";
 export const Setting = () => {
+  const { sharedValue, setSharedValue } = useContext(AppContext);
   const [formData, setFormData] = useState();
   const handleSettingsChange = (e) => {
+    console.log(e.target.value);
     setFormData({
       [e.target.name]: e.target.value,
     });
   };
   const handleSave = () => {
-    document.cookie = "expense_currency=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    const date = new Date();
-    date.setFullYear(date.getFullYear() + 4); // Add years to current date
-    const expires = "expires=" + date.toUTCString();
-    document.cookie =
-      "expense_currency=" + JSON.stringify(formData) + ";" + expires;
+    console.log(formData);
+    cookie.save("expense_currency", formData);
+    setSharedValue(formData);
   };
   return (
     <div>
@@ -33,16 +33,18 @@ export const Setting = () => {
           >
             Select Currency
           </label>
-          <select
-            id="currency"
-            onChange={handleSettingsChange}
-            name="currency"
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-          >
-            <option value="usd">USD - US Dollar</option>
-            <option value="eur">EUR - Euro</option>
-            <option value="inr">INR - Indian Rupee</option>
-            <option value="gbp">GBP - British Pound</option>
+          <select id="currency" name="currency" onChange={handleSettingsChange}>
+            <option value="USD">USD - US Dollar</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="GBP">GBP - British Pound</option>
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="CAD">CAD - Canadian Dollar</option>
+            <option value="CNY">CNY - Chinese Yuan</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="RUB">RUB - Russian Ruble</option>
+            <option value="ZAR">ZAR - South African Rand</option>
+            <option value="SGD">SGD - Singapore Dollar</option>
           </select>
         </div>
       </Card>
