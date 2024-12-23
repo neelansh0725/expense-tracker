@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card } from "../Card/Card";
 import { Transaction } from "../Transaction/Transaction";
-
+import AppContext from "../../context/AppContext";
 export const Expense = (props) => {
+  const { sharedValue, setSharedValue } = useContext(AppContext);
   const [totalExpense, setTotalExpense] = useState(0);
   const [expense, setExpense] = useState([]);
   const [formData, setFormData] = useState();
@@ -47,9 +48,15 @@ export const Expense = (props) => {
           Total Expenses:
           <span className="text-4xl font-bold">
             {totalExpense === 0 ? (
-              <span className="">{totalExpense}</span>
+              <span className="">
+                {" "}
+                {sharedValue ? sharedValue.currency : ""} {totalExpense}
+              </span>
             ) : (
-              <span className=" text-red-500"> - {totalExpense}</span>
+              <span className=" text-red-500">
+                {" "}
+                {sharedValue ? sharedValue.currency : ""} {totalExpense}
+              </span>
             )}
           </span>
         </h2>
