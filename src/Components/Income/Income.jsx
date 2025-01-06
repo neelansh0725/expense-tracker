@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card } from "../Card/Card";
 import { Transaction } from "../Transaction/Transaction";
-import AppContext from "../../context/AppContext";
+import cookie from "react-cookies";
 export const Income = (props) => {
+  const fetchCUrrency = cookie.load("expense_currency");
+  const fetchIncome = cookie.load("incomes");
+  console.log(fetchIncome);
   const [totalIncome, setTotalIncome] = useState(0);
-  const { sharedValue, setSharedValue } = useContext(AppContext);
-  const [income, setIncome] = useState([]);
+
+  const [income, setIncome] = useState(fetchIncome ? fetchIncome : []);
   const [formData, setFormData] = useState();
 
   const deleteIncome = (incomeID) => {
@@ -20,10 +23,13 @@ export const Income = (props) => {
   };
   const handleAddIncome = (e) => {
     e.preventDefault();
+    const now = new Date();
     const newIncome = {
       ...formData,
       id: Date.now() + Math.floor(Math.random() * 1000), // Generates a simple unique ID
-      createdTime: new Date().toISOString(),
+      createdTime: `${now.getFullYear()}-${
+        now.getMonth() + 1
+      }-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`,
     };
     setIncome((prevIncome) => {
       return [...prevIncome, newIncome];
@@ -35,6 +41,7 @@ export const Income = (props) => {
       fullIncome += parseInt(newIncome.amount);
     });
     setTotalIncome(fullIncome);
+    cookie.save("incomes", JSON.stringify(income));
   }, [income]);
   return (
     <div>
@@ -46,19 +53,19 @@ export const Income = (props) => {
             {totalIncome === 0 ? (
               <span className="">
                 {" "}
-                {sharedValue ? sharedValue.currency : ""}
+                {fetchCUrrency ? fetchCUrrency.currency : ""}
                 {" " + totalIncome}
               </span>
             ) : totalIncome > 0 ? (
               <span className=" text-lime-500">
                 {" "}
-                {sharedValue ? sharedValue.currency : ""}
+                {fetchCUrrency ? fetchCUrrency.currency : ""}
                 {" " + totalIncome}
               </span>
             ) : totalIncome < 0 ? (
               <span className=" text-red-500">
                 {" "}
-                {sharedValue ? sharedValue.currency : ""}
+                {fetchCUrrency ? fetchCUrrency.currency : ""}
                 {" " + totalIncome}
               </span>
             ) : (

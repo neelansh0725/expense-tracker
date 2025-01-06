@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Card } from "../Card/Card";
 import { Transaction } from "../Transaction/Transaction";
-import AppContext from "../../context/AppContext";
+import cookie from "react-cookies";
 export const Expense = (props) => {
-  const { sharedValue, setSharedValue } = useContext(AppContext);
+  const fetchCUrrency = cookie.load("expense_currency");
+  const fetchExpense = cookie.load("expenses");
+  console.log(fetchExpense);
   const [totalExpense, setTotalExpense] = useState(0);
-  const [expense, setExpense] = useState([]);
+  const [expense, setExpense] = useState(fetchExpense ? fetchExpense : []);
   const [formData, setFormData] = useState();
   useEffect(() => {
     let fullExpense = 0;
@@ -13,6 +15,7 @@ export const Expense = (props) => {
       fullExpense += parseInt(newExpense.amount);
     });
     setTotalExpense(fullExpense);
+    cookie.save("expenses", JSON.stringify(expense));
   }, [expense]);
 
   const deleteExpense = (expenseID) => {
@@ -29,10 +32,13 @@ export const Expense = (props) => {
   };
   const handleAddExpense = (e) => {
     e.preventDefault();
+    const now = new Date();
     const newExpense = {
       ...formData,
       id: Date.now() + Math.floor(Math.random() * 1000), // Generates a simple unique ID
-      createdTime: new Date().toISOString(),
+      createdTime: `${now.getFullYear()}-${
+        now.getMonth() + 1
+      }-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`,
     };
 
     setExpense((prevExpense) => {
@@ -50,12 +56,12 @@ export const Expense = (props) => {
             {totalExpense === 0 ? (
               <span className="">
                 {" "}
-                {sharedValue ? sharedValue.currency : ""} {totalExpense}
+                {fetchCUrrency ? fetchCUrrency.currency : ""} {totalExpense}
               </span>
             ) : (
               <span className=" text-red-500">
                 {" "}
-                {sharedValue ? sharedValue.currency : ""} {totalExpense}
+                {fetchCUrrency ? fetchCUrrency.currency : ""} {totalExpense}
               </span>
             )}
           </span>

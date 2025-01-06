@@ -1,21 +1,43 @@
 import React, { useContext, useState } from "react";
 import { Card } from "../Card/Card";
 import cookie from "react-cookies";
-import AppContext from "../../context/AppContext";
+import {
+  toast,
+  ToastContainer,
+  Slide,
+  Zoom,
+  Flip,
+  Bounce,
+} from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 export const Setting = () => {
-  const { sharedValue, setSharedValue } = useContext(AppContext);
-  const [formData, setFormData] = useState();
+  const fetchCUrrency = cookie.load("expense_currency");
+  const [formData, setFormData] = useState(fetchCUrrency ? fetchCUrrency : "");
+
   const handleSettingsChange = (e) => {
     console.log(e.target.value);
     setFormData({
       [e.target.name]: e.target.value,
     });
   };
-  const handleSave = () => {
+  const handleSave = async (e) => {
     console.log(formData);
-    cookie.save("expense_currency", formData);
-    setSharedValue(formData);
+    cookie.save("expense_currency", JSON.stringify(formData));
+
+    toast.success("Saved!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
   };
+
   return (
     <div>
       <h2 className="text-3xl font-mono text-center">Settings</h2>
@@ -33,7 +55,12 @@ export const Setting = () => {
           >
             Select Currency
           </label>
-          <select id="currency" name="currency" onChange={handleSettingsChange}>
+          <select
+            id="currency"
+            name="currency"
+            value={formData ? formData.currency : ""}
+            onChange={handleSettingsChange}
+          >
             <option value="USD">USD - US Dollar</option>
             <option value="EUR">EUR - Euro</option>
             <option value="INR">INR - Indian Rupee</option>
@@ -47,6 +74,11 @@ export const Setting = () => {
             <option value="SGD">SGD - Singapore Dollar</option>
           </select>
         </div>
+        <ToastContainer
+          position="bottom-center"
+          theme="dark"
+          transition={Slide}
+        />
       </Card>
     </div>
   );

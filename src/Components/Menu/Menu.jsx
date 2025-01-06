@@ -23,10 +23,10 @@ export const Menu = (props) => {
     }
   };
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col h-full p-4 ">
       {/* Main Menu Items */}
       <div>
-        <ul>
+        <ul className="flex flex-col h-full">
           <li
             className="rounded-md p-2 flex border-2 border-transparent hover:border-slate-600 transition duration-300 cursor-pointer"
             onClick={() => handleMenu("dashboard")}
@@ -64,7 +64,7 @@ export const Menu = (props) => {
             Expenses
           </li>
           <li
-            className="rounded-md p-2 flex border-2 border-transparent hover:border-slate-600 transition duration-300 cursor-pointer"
+            className="rounded-md p-2 flex border-2 border-transparent hover:border-slate-600 transition duration-300 cursor-pointer mt-auto"
             onClick={() => handleMenu("setting")}
           >
             <span className="mr-4 w-5">
