@@ -2,9 +2,8 @@ import { React, useState } from "react";
 import { Dashboard } from "../Dashboard/Dashboard";
 import { Expense } from "../Expense/Expense";
 import { Income } from "../Income/Income";
-import { Transaction } from "../Transaction/Transaction";
 import { Setting } from "../Setting/Setting";
-import { Transactions } from "../Transactions/Transactions";
+import { History } from "../History/History";
 
 export const Menu = (props) => {
   const [expense, setExpense] = useState([]);
@@ -13,7 +12,7 @@ export const Menu = (props) => {
     if (menu == "dashboard") {
       props.menuselected(<Dashboard />);
     } else if (menu == "transaction") {
-      props.menuselected(<Transactions />);
+      props.menuselected(<History />);
     } else if (menu == "income") {
       props.menuselected(<Income />);
     } else if (menu == "expense") {
@@ -23,7 +22,7 @@ export const Menu = (props) => {
     }
   };
   return (
-    <div className="flex flex-col h-full p-4 ">
+    <div className="flex flex-col p-4 ">
       {/* Main Menu Items */}
       <div>
         <ul className="flex flex-col h-full">

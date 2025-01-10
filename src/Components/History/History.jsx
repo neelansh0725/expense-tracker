@@ -1,7 +1,7 @@
 import React from "react";
 import cookie from "react-cookies";
 
-export const Transactions = () => {
+export const History = () => {
   const fetchIncome = cookie.load("incomes");
   const fetchExpense = cookie.load("expenses");
   const recentTransactions = [...fetchIncome, ...fetchExpense];

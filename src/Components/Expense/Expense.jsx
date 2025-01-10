@@ -2,10 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import { Card } from "../Card/Card";
 import { Transaction } from "../Transaction/Transaction";
 import cookie from "react-cookies";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 export const Expense = (props) => {
   const fetchCUrrency = cookie.load("expense_currency");
   const fetchExpense = cookie.load("expenses");
-  console.log(fetchExpense);
+  const [startDate, setStartDate] = useState();
+
   const [totalExpense, setTotalExpense] = useState(0);
   const [expense, setExpense] = useState(fetchExpense ? fetchExpense : []);
   const [formData, setFormData] = useState();
@@ -30,11 +33,16 @@ export const Expense = (props) => {
       [e.target.name]: e.target.value,
     }));
   };
+  const handleDateChange = (date, type) => {
+    setStartDate(date);
+  };
   const handleAddExpense = (e) => {
     e.preventDefault();
     const now = new Date();
     const newExpense = {
       ...formData,
+      selectedDate: startDate,
+      type: "expense",
       id: Date.now() + Math.floor(Math.random() * 1000), // Generates a simple unique ID
       createdTime: `${now.getFullYear()}-${
         now.getMonth() + 1
@@ -59,7 +67,7 @@ export const Expense = (props) => {
                 {fetchCUrrency ? fetchCUrrency.currency : ""} {totalExpense}
               </span>
             ) : (
-              <span className=" text-red-500">
+              <span className=" text-red-800">
                 {" "}
                 {fetchCUrrency ? fetchCUrrency.currency : ""} {totalExpense}
               </span>
@@ -71,6 +79,7 @@ export const Expense = (props) => {
         <Card className="w-3/12">
           <div className=" bg-transparent ">
             <form className="addIncome" onSubmit={handleAddExpense}>
+              <input type="hidden" name="type" value="expense" />
               <h3 className="text-3xl text-center mb-5">Add Expenses</h3>
               <input
                 className="appearance-none block w-full bg-white rounded-xl text-gray-700 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -91,14 +100,14 @@ export const Expense = (props) => {
                 onChange={handleExpenseChange}
                 required
               />
-              <input
-                className="appearance-none block w-full bg-white rounded-xl text-gray-700 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="grid-first-name"
-                type="date"
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => handleDateChange(date, "date")}
+                placeholderText="Select a Date"
+                showTimeSelect
                 name="date"
-                onChange={handleExpenseChange}
-                placeholder="Select a Date"
-                required
+                dateFormat="MMMM d, yyyy h:mm aa"
+                className="appearance-none block w-full bg-white rounded-xl text-gray-700 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               />
               <select
                 className="appearance-none block w-full bg-white rounded-xl text-gray-700 py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -121,7 +130,7 @@ export const Expense = (props) => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full bg-red-500 text-white font-medium py-2 rounded-lg shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2"
+                className="w-full bg-red-800 text-white font-medium py-2 rounded-lg shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2"
               >
                 + Add Expense
               </button>
