@@ -30,7 +30,7 @@ export const Income = (props) => {
 
     const newIncome = {
       ...formData,
-      selectedDate: inputDate.current,
+      selectedDate: startDate,
       type: "income",
       id: Date.now() + Math.floor(Math.random() * 1000), // Generates a simple unique ID
       createdTime: `${now.getFullYear()}-${
@@ -44,8 +44,6 @@ export const Income = (props) => {
   };
   const handleDateChange = (date, type) => {
     setStartDate(date);
-
-    inputDate.current = date;
   };
   useEffect(() => {
     let fullIncome = 0;
@@ -113,7 +111,6 @@ export const Income = (props) => {
               />
               <DatePicker
                 selected={startDate}
-                ref={inputDate}
                 onChange={(date) => handleDateChange(date, "date")}
                 placeholderText="Select a Date"
                 showTimeSelect

@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import { Card } from "../Card/Card";
 import { Charts } from "../Charts/Charts";
-
+import { History } from "../History/History";
+import cookie from "react-cookies";
 export const Dashboard = () => {
   const [chartUsed, setChartUsed] = useState("line");
   const handleChartChange = (e) => {
-    console.log(e.target.value);
     setChartUsed(e.target.value);
   };
+
+  const fetchIncome = cookie.load("incomes");
+  const fetchExpense = cookie.load("expenses");
+  const recentTransactions =
+    fetchIncome && fetchExpense ? [...fetchIncome, ...fetchExpense] : [];
+
+  const sortedData = recentTransactions.sort(
+    (a, b) => new Date(b.createdTime) - new Date(a.createdTime)
+  );
+
+  console.log(sortedData);
   return (
     <div>
-      <div className="gap-4">
-        <Card className="w-full">
+      <div className="gap-4 flex">
+        <Card className="w-3/5">
           <div className="flex w-full justify-between">
             <h2 className="text-3xl font-mono">Finantial Graph</h2>
             <div className="flex justify-between gap-4">
@@ -75,7 +86,7 @@ export const Dashboard = () => {
 
           <Charts chartUsed={chartUsed} />
         </Card>
-        <Card className="w-full">{/* <Transactions /> */}</Card>
+        <Card className="w-2/5">{<History />}</Card>
       </div>
     </div>
   );

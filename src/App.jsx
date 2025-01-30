@@ -3,7 +3,12 @@ import { Profile } from "./Components/Profile/Profile";
 import { Menu } from "./Components/Menu/Menu";
 import { Dashboard } from "./Components/Dashboard/Dashboard";
 import { useState } from "react";
+import cookie from "react-cookies";
 function App() {
+  cookie.load("expense_currency")
+    ? ""
+    : cookie.save("expense_currency", JSON.stringify({ currency: "INR" }));
+
   const [menuSelected, setMenuSelected] = useState(<Dashboard />);
   const selectMenu = (menu) => {
     setMenuSelected(menu);
