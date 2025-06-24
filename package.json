@@ -1,7 +1,8 @@
 {
   "name": "expense_tracker",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "author": "Neelansh Singh",
   "type": "module",
   "proxy": "http://localhost:3000",
   "scripts": {
