@@ -8,8 +8,8 @@ export const Profile = () => {
           <img src="/profileimage.png" alt="" />
         </div>
         <div className="w-3/4 flex flex-col justify-center">
-          <h3 className="text-xl">Ishant</h3>
-          <p>Web Developer/ Freelancer</p>
+          <h3 className="text-xl">Neelansh</h3>
+          <p>Web Developer</p>
         </div>
       </div>
     </div>
